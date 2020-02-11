@@ -25,6 +25,14 @@
                     </Style>
                 </TreeView.ItemContainerStyle>
             </TreeView>
+            <DataGrid x:Name="dataGridCharTable" Grid.Row="0" Grid.Column="1" AutoGenerateColumns="False" HorizontalAlignment="Left" Width="350">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Char" Width="50" Binding="{Binding Char}" IsReadOnly="True"/>
+                    <DataGridTextColumn Header="Unicode" Width="80" Binding="{Binding Unicode}" IsReadOnly="True"/>
+                    <DataGridTextColumn Header="Width" Width="80" Binding="{Binding Width}"/>
+                    <DataGridTextColumn Header="Height" Width="80" Binding="{Binding Height}"/>
+                </DataGrid.Columns>
+            </DataGrid>
         </Grid>
     </Grid>
 </Window>

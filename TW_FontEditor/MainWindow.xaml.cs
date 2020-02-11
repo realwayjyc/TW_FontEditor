@@ -2,6 +2,7 @@
 using CufParser;
 using Microsoft.Win32;
 using System;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Windows;
@@ -15,9 +16,12 @@ namespace TW_FontEditor
     public partial class MainWindow : Window
     {
         private PackedFileEx _currentEditingPackedFile;
+
+        private ObservableCollection<CharPropertyItem> _charTable;
         public MainWindow()
         {
             InitializeComponent();
+            _charTable = new ObservableCollection<CharPropertyItem>();
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -73,12 +77,18 @@ namespace TW_FontEditor
                 return;
             }
             SaveCurrentEditingPackedFile();
+            if (packedFile.Name.EndsWith(".cuf") == false) return;
             _currentEditingPackedFile = new PackedFileEx()
             {
                 PackedFile = packedFile,
                 CufFile = new CufFile(packedFile.Data)
             };
-            _currentEditingPackedFile.CufFile.MaxGlyphHeight = 100;
+            _charTable.Clear();
+            foreach (CharProperty charProperty in _currentEditingPackedFile.CufFile.CharTable)
+            {
+                _charTable.Add(new CharPropertyItem(charProperty));
+            }
+            dataGridCharTable.ItemsSource = _charTable;
         }
 
         private void SaveCurrentEditingPackedFile()

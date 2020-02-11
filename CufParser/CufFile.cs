@@ -182,6 +182,13 @@ namespace CufParser
         }
 
         private List<CharProperty> _charTable;
+        public List<CharProperty> CharTable
+        {
+            get
+            {
+                return _charTable;
+            }
+        }
 
         public string FontName
         {
