@@ -15,6 +15,7 @@
         <Menu Grid.Row="0">
             <MenuItem Header="字体大小+" VerticalContentAlignment="Center" Click="MenuItemAdd_Click"/>
             <MenuItem Header="字体大小-" VerticalContentAlignment="Center" Click="MenuItemMinus_Click"/>
+            <MenuItem Header="保存" VerticalContentAlignment="Center" Click="MenuItemSave_Click"/>
         </Menu>
         <Button Grid.Row="1" Content="Select Pack..." Margin="2" Width="100" HorizontalAlignment="Left" Click="PackFileOpen_Click"/>
         <TextBlock Grid.Row="1" Text="" Name="tbFileName" Margin="110,2,2,2" HorizontalAlignment="Left" VerticalAlignment="Center"/>
@@ -30,12 +31,15 @@
                     </Style>
                 </TreeView.ItemContainerStyle>
             </TreeView>
-            <DataGrid x:Name="dataGridCharTable" Grid.Row="0" Grid.Column="1" AutoGenerateColumns="False" HorizontalAlignment="Left" Width="350" SelectedCellsChanged="DataGridCharTable_SelectedCellsChanged">
+            <DataGrid x:Name="dataGridCharTable" Grid.Row="0" Grid.Column="1" AutoGenerateColumns="False" HorizontalAlignment="Left" Width="550" SelectedCellsChanged="DataGridCharTable_SelectedCellsChanged">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Char" Width="50" Binding="{Binding Char}" IsReadOnly="True"/>
                     <DataGridTextColumn Header="Unicode" Width="80" Binding="{Binding Unicode}" IsReadOnly="True"/>
                     <DataGridTextColumn Header="Width" Width="80" Binding="{Binding Width}"/>
                     <DataGridTextColumn Header="Height" Width="80" Binding="{Binding Height}"/>
+                    <DataGridTextColumn Header="Unknown1" Width="80" Binding="{Binding Unknown1}"/>
+                    <DataGridTextColumn Header="Unknown2" Width="80" Binding="{Binding Unknown2}"/>
+                    <DataGridTextColumn Header="Unknown3" Width="80" Binding="{Binding Unknown3}"/>
                 </DataGrid.Columns>
             </DataGrid>
         </Grid>

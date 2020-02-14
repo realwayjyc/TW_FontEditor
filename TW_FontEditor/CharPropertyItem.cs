@@ -63,6 +63,50 @@ namespace TW_FontEditor
             }
         }
 
+        public byte Unknown1
+        {
+            get
+            {
+                if (_charProperty == null) return 255;
+                return _charProperty.Unknown1;
+            }
+            set
+            {
+                if (_charProperty == null) return;
+                _charProperty.Unknown1 = value;
+            }
+        }
+
+        public byte Unknown2
+        {
+            get
+            {
+                if (_charProperty == null) return 255;
+                return _charProperty.Unknown2;
+            }
+            set
+            {
+                if (_charProperty == null) return;
+                _charProperty.Unknown2 = value;
+            }
+        }
+
+        public byte Unknown3
+        {
+            get
+            {
+                if (_charProperty == null) return 255;
+                return _charProperty.Unknown3;
+            }
+            set
+            {
+                if (_charProperty == null) return;
+                _charProperty.Unknown3 = value;
+            }
+        }
+
+
+
         public ushort UnicodeValue
         {
             get

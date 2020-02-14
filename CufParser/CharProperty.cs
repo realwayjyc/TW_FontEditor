@@ -6,6 +6,10 @@ namespace CufParser
     {
         private byte[] _cufFileContent = null;
 
+        public ushort Unicode
+        {
+            get;
+        }
         public char Character { get; set; }
 
         #region 5个字节的字符大小信息
@@ -95,6 +99,7 @@ namespace CufParser
             _cufFileContent = cufFileContent;
             _sizeInfoStartIndex = sizeInfoStartIndex;
             _charPointInfoStartIndex = charPointInfoStartIndex;
+            Unicode = charUnicode;
         }
 
         public override string ToString()

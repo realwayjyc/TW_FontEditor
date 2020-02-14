@@ -105,11 +105,22 @@ namespace TW_FontEditor
                 CufFile = new CufFile(packedFile.Data)
             };
             _charTable.Clear();
-            foreach (CharProperty charProperty in _currentEditingPackedFile.CufFile.CharTable)
+            int selectedIndex = -1;
+            for(int i=0;i< _currentEditingPackedFile.CufFile.CharTable.Count;i++)
             {
+                CharProperty charProperty = _currentEditingPackedFile.CufFile.CharTable[i];
                 _charTable.Add(new CharPropertyItem(charProperty));
+                if (_lastSelectedUnicode != 0 && _lastSelectedUnicode == charProperty.Unicode)
+                {
+                    selectedIndex = i;
+                }
             }
             dataGridCharTable.ItemsSource = _charTable;
+            if(selectedIndex!=-1)
+            {
+                dataGridCharTable.SelectedIndex = selectedIndex;
+            }
+            dataGridCharTable.Focus();
         }
 
         private void SaveCurrentEditingPackedFile()
@@ -123,14 +134,27 @@ namespace TW_FontEditor
 
         private void SavePackFile()
         {
+            SaveCurrentEditingPackedFile();
             PackFile packFile = treeViewPackedFiles.Tag as PackFile;
-            if(packFile!=null)
+            bool isDirty = false;
+            if (packFile!=null)
             {
-                bool isDirty = false;
                 foreach(PackedFile packedFile in packFile.Files)
                 {
-                    isDirty = true;
+                    if(packedFile.Modified)
+                    {
+                        isDirty = true;
+                    }
                 }
+            }
+            if(isDirty==false)
+            {
+                MessageBox.Show("未做更改");
+            }
+            else
+            {
+                new PackFileCodec().Save(packFile);
+                MessageBox.Show("已经保存");
             }
         }
 
@@ -146,8 +170,14 @@ namespace TW_FontEditor
 
         private void DataGridCharTable_SelectedCellsChanged(object sender, SelectedCellsChangedEventArgs e)
         {
+            if (this.dataGridCharTable.SelectedItem == null) return;
             CharPropertyItem charPropertyItem = this.dataGridCharTable.SelectedItem as CharPropertyItem;
             _lastSelectedUnicode = charPropertyItem.UnicodeValue;
+        }
+
+        private void MenuItemSave_Click(object sender, RoutedEventArgs e)
+        {
+            SavePackFile();
         }
     }
 }
