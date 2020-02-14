@@ -63,6 +63,14 @@ namespace TW_FontEditor
             }
         }
 
+        public ushort UnicodeValue
+        {
+            get
+            {
+                return _charProperty.Character;
+            }
+        }
+
         public CharPropertyItem(CharProperty charProperty)
         {
             _charProperty = charProperty;

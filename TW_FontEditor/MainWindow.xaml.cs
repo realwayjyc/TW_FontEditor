@@ -3,8 +3,11 @@ using CufParser;
 using Microsoft.Win32;
 using System;
 using System.Collections.ObjectModel;
+using System.Drawing;
+using System.Drawing.Text;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -16,6 +19,9 @@ namespace TW_FontEditor
     public partial class MainWindow : Window
     {
         private PackedFileEx _currentEditingPackedFile;
+
+        private const string fontName = "Noto Sans CJK SC Regular";
+        private ushort _lastSelectedUnicode = 0;
 
         private ObservableCollection<CharPropertyItem> _charTable;
         public MainWindow()
@@ -56,13 +62,28 @@ namespace TW_FontEditor
                 childItem.Header = packedFile.Name;
                 childItem.Tag = packedFile;
                 root.Items.Add(childItem);
+                if(packedFile.Name.EndsWith(".ttf"))
+                {
+                    UseFontFromFile(packedFile.Data);
+                }
             }
+        }
+
+        private void UseFontFromFile(byte[] content)
+        {
+            string fileNameNew = AppDomain.CurrentDomain.BaseDirectory + fontName + ".ttf";
+            FileStream fileStream = new FileStream(fileNameNew, FileMode.Create, FileAccess.Write);
+            fileStream.Write(content, 0, content.Length);
+            fileStream.Close();
+            FontFamily= new System.Windows.Media.FontFamily("file:///G:/GitHub/TW_FontEditor/TW_FontEditor/bin/Debug/#" + fontName);
+            //dataGridCharTable.FontFamily = 
         }
 
         private void TreeViewPackedFiles_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             TreeViewItem treeViewItem = treeViewPackedFiles.SelectedItem as TreeViewItem;
             if (treeViewItem == null) return;
+            
             PackedFile packedFile = treeViewItem.Tag as PackedFile;
             if(packedFile!=null)
             {
@@ -111,6 +132,22 @@ namespace TW_FontEditor
                     isDirty = true;
                 }
             }
+        }
+
+        private void MenuItemAdd_Click(object sender, RoutedEventArgs e)
+        {
+            this.FontSize += 1;
+        }
+
+        private void MenuItemMinus_Click(object sender, RoutedEventArgs e)
+        {
+            this.FontSize -= 1;
+        }
+
+        private void DataGridCharTable_SelectedCellsChanged(object sender, SelectedCellsChangedEventArgs e)
+        {
+            CharPropertyItem charPropertyItem = this.dataGridCharTable.SelectedItem as CharPropertyItem;
+            _lastSelectedUnicode = charPropertyItem.UnicodeValue;
         }
     }
 }
