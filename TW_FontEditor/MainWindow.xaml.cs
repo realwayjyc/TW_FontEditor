@@ -19,7 +19,6 @@ namespace TW_FontEditor
     public partial class MainWindow : Window
     {
         private PackedFileEx _currentEditingPackedFile;
-
         private const string fontName = "Noto Sans CJK SC Regular";
         private ushort _lastSelectedUnicode = 0;
 
@@ -30,21 +29,25 @@ namespace TW_FontEditor
             _charTable = new ObservableCollection<CharPropertyItem>();
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
         private void PackFileOpen_Click(object sender, RoutedEventArgs e)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
             openFileDialog.Filter = "Pack文件|*.pack";
+            openFileDialog.FileName = "FontModeWH.pack";
             if (openFileDialog.ShowDialog() == true)
             {
                 PackFile pack = new PackFileCodec().Open(openFileDialog.FileName);
                 ShowPack(pack);
-                tbFileName.Text = pack.Filepath;
+                Title = pack.Filepath;
+                MakeBackup(openFileDialog.FileName);
             }
+        }
+
+        private void MakeBackup(string fileName)
+        {
+            string backupFileName = fileName + ".bak";
+            if (File.Exists(backupFileName)) return;
+            File.Copy(fileName, backupFileName);
         }
 
         private void ShowPack(PackFile pack)
@@ -52,19 +55,38 @@ namespace TW_FontEditor
             if (pack == null) return;
             treeViewPackedFiles.Tag = pack;
             
-            TreeViewItem root = new TreeViewItem();
-            root.Header= Path.GetFileName(pack.Filepath);
-            treeViewPackedFiles.Items.Add(root);
-
-            foreach(PackedFile packedFile in pack.Files)
+            if(treeViewPackedFiles.Items.Count==0)
             {
-                TreeViewItem childItem = new TreeViewItem();
-                childItem.Header = packedFile.Name;
-                childItem.Tag = packedFile;
-                root.Items.Add(childItem);
-                if(packedFile.Name.EndsWith(".ttf"))
+                TreeViewItem root = new TreeViewItem();
+                root.Header = Path.GetFileName(pack.Filepath);
+                treeViewPackedFiles.Items.Add(root);
+
+                foreach (PackedFile packedFile in pack.Files)
                 {
-                    UseFontFromFile(packedFile.Data);
+                    TreeViewItem childItem = new TreeViewItem();
+                    childItem.Header = packedFile.Name;
+                    childItem.Tag = packedFile;
+                    root.Items.Add(childItem);
+                    if (packedFile.Name.EndsWith(".ttf"))
+                    {
+                        UseFontFromFile(packedFile.Data);
+                    }
+                }
+            }
+            else
+            {
+                TreeViewItem root = treeViewPackedFiles.Items[0] as TreeViewItem;
+                root.Header = Path.GetFileName(pack.Filepath);
+                for(int i=0;i< pack.Files.Count;i++)
+                {
+                    TreeViewItem childItem = root.Items[i] as TreeViewItem;
+                    PackedFile packedFile = pack.Files[i];
+                    childItem.Header = packedFile.Name;
+                    childItem.Tag = packedFile;
+                    if (packedFile.Name.EndsWith(".ttf"))
+                    {
+                        UseFontFromFile(packedFile.Data);
+                    }
                 }
             }
         }
@@ -76,7 +98,6 @@ namespace TW_FontEditor
             fileStream.Write(content, 0, content.Length);
             fileStream.Close();
             FontFamily= new System.Windows.Media.FontFamily("file:///G:/GitHub/TW_FontEditor/TW_FontEditor/bin/Debug/#" + fontName);
-            //dataGridCharTable.FontFamily = 
         }
 
         private void TreeViewPackedFiles_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
@@ -154,7 +175,7 @@ namespace TW_FontEditor
             else
             {
                 new PackFileCodec().Save(packFile);
-                MessageBox.Show("已经保存");
+                MessageBox.Show("保存成功");
             }
         }
 
@@ -178,6 +199,84 @@ namespace TW_FontEditor
         private void MenuItemSave_Click(object sender, RoutedEventArgs e)
         {
             SavePackFile();
+        }
+
+        private void MenuItemReplace_Click(object sender, RoutedEventArgs e)
+        {
+            if (treeViewPackedFiles.SelectedItem == null) return;
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Multiselect = false;
+            openFileDialog.Filter = "*.*|*.*";
+            if (openFileDialog.ShowDialog() == true)
+            {
+                FileStream fileStream = new FileStream(openFileDialog.FileName, FileMode.Open, FileAccess.Read);
+                byte[] content = new byte[fileStream.Length];
+                fileStream.Read(content, 0,(int)fileStream.Length);
+                fileStream.Close();
+
+                TreeViewItem treeViewItem = treeViewPackedFiles.SelectedItem as TreeViewItem;
+                PackedFile packedFile = treeViewItem.Tag as PackedFile;
+                packedFile.Data = content;
+            }
+        }
+
+        private void FillContent_Click(object sender, RoutedEventArgs e)
+        {
+            FillContent fillContent = new FillContent();
+            CharPropertyItem charPropertyItemSelected= this.dataGridCharTable.SelectedItem as CharPropertyItem;
+            if(charPropertyItemSelected != null)
+            {
+                fillContent.ValueWidth = charPropertyItemSelected.Width;
+                fillContent.ValueHeight = charPropertyItemSelected.Height;
+                fillContent.ValueUnk1 = charPropertyItemSelected.Unknown1;
+                fillContent.ValueUnk2 = charPropertyItemSelected.Unknown2;
+                fillContent.ValueUnk3 = charPropertyItemSelected.Unknown3;
+            }
+            fillContent.ShowDialog();
+            if (fillContent.IsOK == false) return;
+            foreach(CharPropertyItem charPropertyItem in _charTable)
+            {
+                charPropertyItem.Width = fillContent.ValueWidth;
+                charPropertyItem.Height = fillContent.ValueHeight;
+                charPropertyItem.Unknown1 = fillContent.ValueUnk1;
+                charPropertyItem.Unknown2 = fillContent.ValueUnk2;
+                charPropertyItem.Unknown3 = fillContent.ValueUnk3;
+            }
+        }
+
+        private void Restore_Click(object sender, RoutedEventArgs e)
+        {
+            string bakPackFileName = null;
+            if(treeViewPackedFiles.Tag == null)
+            {
+                OpenFileDialog openFileDialog = new OpenFileDialog();
+                openFileDialog.Multiselect = false;
+                openFileDialog.Filter = "*.bak|*.bak";
+                if (openFileDialog.ShowDialog() == true)
+                {
+                    bakPackFileName = openFileDialog.FileName;
+                }
+            }
+            else
+            {
+                PackFile packFile = treeViewPackedFiles.Tag as PackFile;
+                bakPackFileName = packFile.Filepath + ".bak";
+            }
+
+            string packFileName = bakPackFileName.Substring(0, bakPackFileName.Length - 4);
+            if (File.Exists(packFileName))
+            {
+                File.Delete(packFileName);
+            }
+            File.Copy(bakPackFileName, packFileName);
+            PackFile pack = new PackFileCodec().Open(packFileName);
+            ShowPack(pack);
+            Title = pack.Filepath;
+
+            _currentEditingPackedFile = null;
+            TreeViewItem treeViewItem = treeViewPackedFiles.SelectedItem as TreeViewItem;
+            ShowPackedFile(treeViewItem.Tag as PackedFile);
+            MessageBox.Show("恢复成功");
         }
     }
 }
