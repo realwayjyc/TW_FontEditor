@@ -21,6 +21,8 @@
         <Button Grid.Row="1" Content="Select Pack..." Margin="2" Width="100" HorizontalAlignment="Left" Click="PackFileOpen_Click"/>
         <Button Grid.Row="1" Content="Fill Content" Margin="150,2,2,2" Width="100" HorizontalAlignment="Left" Click="FillContent_Click"/>
         <Button Grid.Row="1" Content="Restore" Margin="300,2,2,2" Width="100" HorizontalAlignment="Left" Click="Restore_Click"/>
+        <Button Grid.Row="1" Content="Search" Margin="450,2,2,2" Width="100" HorizontalAlignment="Left" Click="SearchChar_Click"/>
+        <TextBox Grid.Row="1" Name="txtSearchChar" Margin="560,0,2,0" Width="50" Height="25" HorizontalAlignment="Left" VerticalAlignment="Center" VerticalContentAlignment="Center"/>
         <Grid Grid.Row="2">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="200"/>

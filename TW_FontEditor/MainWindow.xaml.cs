@@ -278,5 +278,38 @@ namespace TW_FontEditor
             ShowPackedFile(treeViewItem.Tag as PackedFile);
             MessageBox.Show("恢复成功");
         }
+
+        private void SearchChar_Click(object sender, RoutedEventArgs e)
+        {
+            string text = txtSearchChar.Text;
+            int value = 0;
+            ushort unicode = 0;
+            if(int.TryParse(text,out value)==true)
+            {
+                if(value<10)
+                {
+                    unicode = value.ToString().ToCharArray()[0];
+                }
+                else
+                {
+                    unicode = (ushort)value;
+                }
+            }
+            else
+            {
+                unicode = text.ToCharArray()[0];
+            }
+
+            for(int i=0;i< _charTable.Count;i++)
+            {
+               if(_charTable[i].UnicodeValue== unicode)
+                {
+                    dataGridCharTable.SelectedIndex = i;
+                    dataGridCharTable.ScrollIntoView(dataGridCharTable.SelectedItem);
+                    dataGridCharTable.Focus();
+                    break;
+                }
+            }
+        }
     }
 }
