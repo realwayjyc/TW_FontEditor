@@ -93,11 +93,19 @@ namespace TW_FontEditor
 
         private void UseFontFromFile(byte[] content)
         {
-            string fileNameNew = AppDomain.CurrentDomain.BaseDirectory + fontName + ".ttf";
-            FileStream fileStream = new FileStream(fileNameNew, FileMode.Create, FileAccess.Write);
-            fileStream.Write(content, 0, content.Length);
-            fileStream.Close();
-            FontFamily= new System.Windows.Media.FontFamily("file:///G:/GitHub/TW_FontEditor/TW_FontEditor/bin/Debug/#" + fontName);
+
+            try
+            {
+                string fileNameNew = AppDomain.CurrentDomain.BaseDirectory + fontName + ".ttf";
+                FileStream fileStream = new FileStream(fileNameNew, FileMode.Create, FileAccess.Write);
+                fileStream.Write(content, 0, content.Length);
+                fileStream.Close();
+                FontFamily = new System.Windows.Media.FontFamily("file:///G:/GitHub/TW_FontEditor/TW_FontEditor/bin/Debug/#" + fontName);
+            }
+            catch (Exception ex)
+            {
+
+            }
         }
 
         private void TreeViewPackedFiles_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
@@ -242,10 +250,18 @@ namespace TW_FontEditor
                 charPropertyItem.Unknown2 = fillContent.ValueUnk2;
                 charPropertyItem.Unknown3 = fillContent.ValueUnk3;
             }
+            TreeViewItem treeViewItem = treeViewPackedFiles.SelectedItem as TreeViewItem;
+            ShowPackedFile(treeViewItem.Tag as PackedFile);
         }
 
         private void Restore_Click(object sender, RoutedEventArgs e)
         {
+            PackFile packFile = treeViewPackedFiles.Tag as PackFile;
+            if(packFile!=null)
+            {
+                new PackFileCodec().Save(packFile);
+            }
+
             string bakPackFileName = null;
             if(treeViewPackedFiles.Tag == null)
             {
@@ -259,7 +275,7 @@ namespace TW_FontEditor
             }
             else
             {
-                PackFile packFile = treeViewPackedFiles.Tag as PackFile;
+                packFile = treeViewPackedFiles.Tag as PackFile;
                 bakPackFileName = packFile.Filepath + ".bak";
             }
 
