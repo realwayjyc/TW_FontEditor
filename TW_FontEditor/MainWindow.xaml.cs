@@ -327,5 +327,10 @@ namespace TW_FontEditor
                 }
             }
         }
+
+        private void DataGridHeaderTable_SelectedCellsChanged(object sender, SelectedCellsChangedEventArgs e)
+        {
+
+        }
     }
 }

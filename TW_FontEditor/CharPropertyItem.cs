@@ -119,7 +119,32 @@ namespace TW_FontEditor
         {
             _charProperty = charProperty;
         }
-
-
     }
+
+    public class HeaderPropertyItem : INotifyPropertyChanged
+    {
+        private CufFile _cufFile;
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public virtual void OnPropertyChanged(string propertyName)
+        {
+            PropertyChangedEventHandler hander = PropertyChanged;
+            if (hander != null)
+                hander(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        private string _headerName;
+        public string HeaderName
+        {
+            get { return _headerName; }
+            set { _headerName = value; }
+        }
+
+        public string HeaderValue
+        {
+
+        }
+    }
+
 }
