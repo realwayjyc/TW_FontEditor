@@ -1,5 +1,6 @@
 ﻿using CufParser;
 using System.ComponentModel;
+using System.Reflection;
 
 namespace TW_FontEditor
 {
@@ -143,7 +144,32 @@ namespace TW_FontEditor
 
         public string HeaderValue
         {
+            get
+            {
+                if (_cufFile == null) return null;
+                PropertyInfo propertyInfo = _cufFile.GetType().GetProperty(_headerName);
+                if (propertyInfo == null) return null;
+                object retValue = propertyInfo.GetValue(_cufFile);
+                if (retValue == null) return null;
+                return retValue.ToString();
+            }
+            set
+            {
+                if (_cufFile == null) return;
+                PropertyInfo propertyInfo = _cufFile.GetType().GetProperty(_headerName);
+                if (propertyInfo == null) return;
+                ushort toSetValue = 0;
+                if (ushort.TryParse(value,out toSetValue))
+                {
+                    propertyInfo.SetValue(_cufFile, toSetValue);
+                }
+            }
+        }
 
+        public HeaderPropertyItem(CufFile cufFile,string headerName)
+        {
+            _cufFile = cufFile;
+            _headerName = headerName;
         }
     }
 

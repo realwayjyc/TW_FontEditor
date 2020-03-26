@@ -49,8 +49,8 @@
             </DataGrid>
             <DataGrid x:Name="dataGridHeaderTable" Margin="10,0,0,0" Grid.Row="0" Grid.Column="2" AutoGenerateColumns="False" HorizontalAlignment="Left" Width="220" SelectedCellsChanged="DataGridHeaderTable_SelectedCellsChanged">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="Name" Width="120" IsReadOnly="True"/>
-                    <DataGridTextColumn Header="Value" Width="100"/>
+                    <DataGridTextColumn Header="Name" Width="130" IsReadOnly="True" Binding="{Binding HeaderName}"/>
+                    <DataGridTextColumn Header="Value" Width="90" Binding="{Binding HeaderValue}"/>
                 </DataGrid.Columns>
             </DataGrid>
         </Grid>

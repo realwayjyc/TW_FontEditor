@@ -68,7 +68,11 @@ namespace CufParser
                 Array.Copy(BitConverter.GetBytes(value), 0, _content, 8, 2);
             }
         }
-        public ushort UnknownWidth2
+
+        /// <summary>
+        /// 有效
+        /// </summary>
+        public ushort YOffset
         {
             get
             {
@@ -101,7 +105,7 @@ namespace CufParser
                 Array.Copy(BitConverter.GetBytes(value), 0, _content, 14, 2);
             }
         }
-        public ushort YOffset
+        public ushort UnknownValue
         {
             get
             {
@@ -203,6 +207,9 @@ namespace CufParser
                 return ret;
             }
         }
+        /// <summary>
+        /// 有效
+        /// </summary>
         public ushort FontSize
         {
             get

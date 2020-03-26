@@ -7,6 +7,7 @@ using System.Drawing;
 using System.Drawing.Text;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls;
@@ -23,10 +24,13 @@ namespace TW_FontEditor
         private ushort _lastSelectedUnicode = 0;
 
         private ObservableCollection<CharPropertyItem> _charTable;
+
+        private ObservableCollection<HeaderPropertyItem> _headerItemTable;
         public MainWindow()
         {
             InitializeComponent();
             _charTable = new ObservableCollection<CharPropertyItem>();
+            _headerItemTable = new ObservableCollection<HeaderPropertyItem>();
         }
 
         private void PackFileOpen_Click(object sender, RoutedEventArgs e)
@@ -150,6 +154,25 @@ namespace TW_FontEditor
                 dataGridCharTable.SelectedIndex = selectedIndex;
             }
             dataGridCharTable.Focus();
+
+            ShowHeaderItemTable(_currentEditingPackedFile.CufFile);
+        }
+
+        private void ShowHeaderItemTable(CufFile cufFile)
+        {
+            if (cufFile == null) return;
+            _headerItemTable.Clear();
+            PropertyInfo[] propertyInfos= cufFile.GetType().GetProperties();
+            foreach(PropertyInfo propertyInfo in propertyInfos)
+            {
+                if(propertyInfo.PropertyType==typeof(ushort))
+                {
+                    HeaderPropertyItem headerPropertyItem = new HeaderPropertyItem(cufFile, propertyInfo.Name);
+                    _headerItemTable.Add(headerPropertyItem);
+                }
+            }
+            this.dataGridHeaderTable.ItemsSource = _headerItemTable;
+
         }
 
         private void SaveCurrentEditingPackedFile()
