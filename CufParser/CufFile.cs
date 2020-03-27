@@ -228,13 +228,15 @@ namespace CufParser
             _content = new byte[content.Length];
             Array.Copy(content, _content, content.Length);
             _charTable = new List<CharProperty>();
+            int index = 0;
             for(int i=0x20;i<0x20020;i+=2)
             {
                 ushort unicodeValue= BitConverter.ToUInt16(_content, i);
                 if(unicodeValue!=0xffff)
                 {
                     _charTable.Add(new CharProperty(unicodeValue, _content,
-                        0x20020 + 5 * (i - 0x20) / 2, 0x20020 + 5 * NumberOfGlyphs + 4 * (i - 0x20) / 2));
+                        0x20020 + 5 * index, 0x20020 + 5 * NumberOfGlyphs + 4 * index));
+                    index++;
                 }
             }
             if(_charTable.Count!= NumberOfGlyphs)

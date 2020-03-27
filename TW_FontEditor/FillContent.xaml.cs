@@ -82,6 +82,30 @@ namespace TW_FontEditor
             }
         }
 
+        public int FromIndex
+        {
+            get
+            {
+                return int.Parse(txtFrom.Text);
+            }
+            set
+            {
+                txtFrom.Text = value.ToString();
+            }
+        }
+
+        public int ToIndex
+        {
+            get
+            {
+                return int.Parse(txtTo.Text);
+            }
+            set
+            {
+                txtTo.Text = value.ToString();
+            }
+        }
+
         private void ButtonSave_Click(object sender, RoutedEventArgs e)
         {
             IsOK = true;

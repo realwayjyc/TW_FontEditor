@@ -5,10 +5,11 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TW_FontEditor"
         mc:Ignorable="d"
-        Title="FillContent" Height="110" Width="500" FontSize="16" WindowStartupLocation="CenterScreen" WindowState="Normal">
+        Title="FillContent" Height="160" Width="500" FontSize="16" WindowStartupLocation="CenterScreen" WindowState="Normal">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="35"/>
+            <RowDefinition Height="45"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
@@ -33,5 +34,11 @@
 
         <Button Content="Save" Grid.Row="1" Grid.Column="5" Margin="5" Click="ButtonSave_Click"/>
         <Button Content="Cancel" Grid.Row="0" Grid.Column="5" Margin="5" Click="ButtonCancel_Click"/>
+
+        <TextBlock Grid.Row="2" Grid.Column="0" Text="From" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+        <TextBlock Grid.Row="2" Grid.Column="2" Text="To" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+
+        <TextBox x:Name="txtFrom" Grid.Row="2" Grid.Column="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="3"/>
+        <TextBox x:Name="txtTo" Grid.Row="2" Grid.Column="3" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="3"/>
     </Grid> 
 </Window>

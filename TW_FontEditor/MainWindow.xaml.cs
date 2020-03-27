@@ -12,6 +12,7 @@ using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls;
 
+//21814 继  32487  相差 10673
 namespace TW_FontEditor
 {
     /// <summary>
@@ -262,11 +263,14 @@ namespace TW_FontEditor
                 fillContent.ValueUnk1 = charPropertyItemSelected.Unknown1;
                 fillContent.ValueUnk2 = charPropertyItemSelected.Unknown2;
                 fillContent.ValueUnk3 = charPropertyItemSelected.Unknown3;
+                fillContent.FromIndex = 0;
+                fillContent.ToIndex = _charTable.Count - 1;
             }
             fillContent.ShowDialog();
             if (fillContent.IsOK == false) return;
-            foreach(CharPropertyItem charPropertyItem in _charTable)
+            for(int i= fillContent.FromIndex; i<= fillContent.ToIndex;i++)
             {
+                CharPropertyItem charPropertyItem = _charTable[i];
                 charPropertyItem.Width = fillContent.ValueWidth;
                 charPropertyItem.Height = fillContent.ValueHeight;
                 charPropertyItem.Unknown1 = fillContent.ValueUnk1;
