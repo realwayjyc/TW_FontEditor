@@ -143,7 +143,8 @@ namespace TW_FontEditor
             for(int i=0;i< _currentEditingPackedFile.CufFile.CharTable.Count;i++)
             {
                 CharProperty charProperty = _currentEditingPackedFile.CufFile.CharTable[i];
-                _charTable.Add(new CharPropertyItem(charProperty));
+                CharPropertyItem charPropertyItem = new CharPropertyItem(charProperty);
+                _charTable.Add(charPropertyItem);
                 if (_lastSelectedUnicode != 0 && _lastSelectedUnicode == charProperty.Unicode)
                 {
                     selectedIndex = i;
@@ -262,20 +263,24 @@ namespace TW_FontEditor
                 fillContent.ValueHeight = charPropertyItemSelected.Height;
                 fillContent.ValueUnk1 = charPropertyItemSelected.Unknown1;
                 fillContent.ValueUnk2 = charPropertyItemSelected.Unknown2;
-                fillContent.ValueUnk3 = charPropertyItemSelected.Unknown3;
+                fillContent.ValueWidthFull = charPropertyItemSelected.WidthFull;
                 fillContent.FromIndex = 0;
                 fillContent.ToIndex = _charTable.Count - 1;
             }
             fillContent.ShowDialog();
             if (fillContent.IsOK == false) return;
-            for(int i= fillContent.FromIndex; i<= fillContent.ToIndex;i++)
+            if(fillContent.FromIndex<0)
+            {
+                fillContent.FromIndex = 0;
+            }
+            for(int i= fillContent.FromIndex; i<= fillContent.ToIndex && i< _charTable.Count; i++)
             {
                 CharPropertyItem charPropertyItem = _charTable[i];
                 charPropertyItem.Width = fillContent.ValueWidth;
                 charPropertyItem.Height = fillContent.ValueHeight;
                 charPropertyItem.Unknown1 = fillContent.ValueUnk1;
                 charPropertyItem.Unknown2 = fillContent.ValueUnk2;
-                charPropertyItem.Unknown3 = fillContent.ValueUnk3;
+                charPropertyItem.WidthFull = fillContent.ValueWidthFull;
             }
             TreeViewItem treeViewItem = treeViewPackedFiles.SelectedItem as TreeViewItem;
             ShowPackedFile(treeViewItem.Tag as PackedFile);

@@ -44,7 +44,7 @@
                     <DataGridTextColumn Header="Height" Width="80" Binding="{Binding Height}"/>
                     <DataGridTextColumn Header="Unknown1" Width="80" Binding="{Binding Unknown1}"/>
                     <DataGridTextColumn Header="Unknown2" Width="80" Binding="{Binding Unknown2}"/>
-                    <DataGridTextColumn Header="Unknown3" Width="80" Binding="{Binding Unknown3}"/>
+                    <DataGridTextColumn Header="WidthFull" Width="80" Binding="{Binding WidthFull}"/>
                 </DataGrid.Columns>
             </DataGrid>
             <DataGrid x:Name="dataGridHeaderTable" Margin="10,0,0,0" Grid.Row="0" Grid.Column="2" AutoGenerateColumns="False" HorizontalAlignment="Left" Width="220" SelectedCellsChanged="DataGridHeaderTable_SelectedCellsChanged">

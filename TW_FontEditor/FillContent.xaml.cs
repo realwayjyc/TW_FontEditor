@@ -22,6 +22,7 @@ namespace TW_FontEditor
         public FillContent()
         {
             InitializeComponent();
+            SetToDefault();
         }
 
         public bool IsOK { get; set; }
@@ -70,15 +71,15 @@ namespace TW_FontEditor
                 txtUnk2.Text = value.ToString();
             }
         }
-        public byte ValueUnk3
+        public byte ValueWidthFull
         {
             get
             {
-                return byte.Parse(txtUnk3.Text);
+                return byte.Parse(txtWidthFull.Text);
             }
             set
             {
-                txtUnk3.Text = value.ToString();
+                txtWidthFull.Text = value.ToString();
             }
         }
 
@@ -116,6 +117,17 @@ namespace TW_FontEditor
         {
             IsOK = false;
             this.Close();
+        }
+
+        private void ButtonDefault_Click(object sender, RoutedEventArgs e)
+        {
+            SetToDefault();
+        }
+
+        private void SetToDefault()
+        {
+            FromIndex = 13312;
+            ToIndex = 50000;
         }
     }
 }
