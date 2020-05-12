@@ -64,7 +64,7 @@ namespace CufParser
             }
         }
 
-        public byte Unknown3
+        public byte WidthFull
         {
             get
             {

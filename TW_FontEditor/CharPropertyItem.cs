@@ -17,7 +17,6 @@ namespace TW_FontEditor
                 hander(this, new PropertyChangedEventArgs(propertyName));
         }
 
-
         public string Char
         {
             get
@@ -92,17 +91,17 @@ namespace TW_FontEditor
             }
         }
 
-        public byte Unknown3
+        public byte WidthFull
         {
             get
             {
                 if (_charProperty == null) return 255;
-                return _charProperty.Unknown3;
+                return _charProperty.WidthFull;
             }
             set
             {
                 if (_charProperty == null) return;
-                _charProperty.Unknown3 = value;
+                _charProperty.WidthFull = value;
             }
         }
 

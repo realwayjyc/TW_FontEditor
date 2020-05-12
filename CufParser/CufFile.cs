@@ -33,6 +33,7 @@ namespace CufParser
     /// </summary>
     public class CufFile
     {
+        public const int ChineseCharacterMinus = 10673;
         private byte[] _content;
 
         public ushort UnknownWidth1
@@ -57,7 +58,7 @@ namespace CufParser
                 Array.Copy(BitConverter.GetBytes(value), 0, _content, 6, 2);
             }
         }
-        public ushort CapHeight
+        public ushort HeightFull
         {
             get
             {
@@ -235,7 +236,8 @@ namespace CufParser
                 if(unicodeValue!=0xffff)
                 {
                     _charTable.Add(new CharProperty(unicodeValue, _content,
-                        0x20020 + 5 * index, 0x20020 + 5 * NumberOfGlyphs + 4 * index));
+                        0x20020 + 5 * (index> (ChineseCharacterMinus+1000)?(index- ChineseCharacterMinus) :index), 
+                        0x20020 + 5 * NumberOfGlyphs + 4 * index));
                     index++;
                 }
             }

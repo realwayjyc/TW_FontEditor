@@ -24,13 +24,13 @@
         <TextBlock Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Text="Height"/>
         <TextBlock Grid.Row="0" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Center" Text="Unk1"/>
         <TextBlock Grid.Row="0" Grid.Column="3" VerticalAlignment="Center" HorizontalAlignment="Center" Text="Unk2"/>
-        <TextBlock Grid.Row="0" Grid.Column="4" VerticalAlignment="Center" HorizontalAlignment="Center" Text="Unk3"/>
+        <TextBlock Grid.Row="0" Grid.Column="4" VerticalAlignment="Center" HorizontalAlignment="Center" Text="WidthFull"/>
 
         <TextBox x:Name="txtWidth" Grid.Row="1" Grid.Column="0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="3"/>
         <TextBox x:Name="txtHeight" Grid.Row="1" Grid.Column="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="3"/>
         <TextBox x:Name="txtUnk1" Grid.Row="1" Grid.Column="2" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="3"/>
         <TextBox x:Name="txtUnk2" Grid.Row="1" Grid.Column="3" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="3"/>
-        <TextBox x:Name="txtUnk3" Grid.Row="1" Grid.Column="4" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="3"/>
+        <TextBox x:Name="txtWidthFull" Grid.Row="1" Grid.Column="4" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="3"/>
 
         <Button Content="Save" Grid.Row="1" Grid.Column="5" Margin="5" Click="ButtonSave_Click"/>
         <Button Content="Cancel" Grid.Row="0" Grid.Column="5" Margin="5" Click="ButtonCancel_Click"/>
@@ -40,5 +40,7 @@
 
         <TextBox x:Name="txtFrom" Grid.Row="2" Grid.Column="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="3"/>
         <TextBox x:Name="txtTo" Grid.Row="2" Grid.Column="3" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="3"/>
+
+        <Button Content="Default" Grid.Row="2" Grid.Column="5" Margin="5" Click="ButtonDefault_Click"/>
     </Grid> 
 </Window>
