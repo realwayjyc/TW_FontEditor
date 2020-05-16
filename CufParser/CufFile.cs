@@ -3,6 +3,11 @@ using System.Collections.Generic;
 
 namespace CufParser
 {
+    public enum FileType
+    {
+        WH=0,
+        TK=1,
+    }
     /// <summary>
     /// 0->0x1F 
     /// 字体基本信息
@@ -33,7 +38,10 @@ namespace CufParser
     /// </summary>
     public class CufFile
     {
-        public const int ChineseCharacterMinus = 10673;
+        private FileType _fileType;
+        public const int OtherCharacterMinus = 35;
+        public const int ChineseCharacterMinus_3K = 10673;
+        public const int ChineseCharacterMinus_WH = 10670;
         private byte[] _content;
 
         public ushort UnknownWidth1
@@ -224,19 +232,39 @@ namespace CufParser
         }
 
 
-        public CufFile(byte[] content)
+        public CufFile(byte[] content,FileType fileType)
         {
+            _fileType = fileType;
             _content = new byte[content.Length];
             Array.Copy(content, _content, content.Length);
             _charTable = new List<CharProperty>();
             int index = 0;
+            int offset = 0;
+            switch(_fileType)
+            {
+                case FileType.TK:
+                    offset = ChineseCharacterMinus_3K;
+                    break;
+                case FileType.WH:
+                    offset = ChineseCharacterMinus_WH;
+                    break;
+            }
             for(int i=0x20;i<0x20020;i+=2)
             {
                 ushort unicodeValue= BitConverter.ToUInt16(_content, i);
                 if(unicodeValue!=0xffff)
                 {
+                    int charOffset = index;
+                    if(index> (offset + 1000))
+                    {
+                        charOffset = index - offset;
+                    }
+                    else if(index>161)
+                    {
+                        charOffset -= OtherCharacterMinus;
+                    }
                     _charTable.Add(new CharProperty(unicodeValue, _content,
-                        0x20020 + 5 * (index> (ChineseCharacterMinus+1000)?(index- ChineseCharacterMinus) :index), 
+                        0x20020 + 5 * charOffset, 
                         0x20020 + 5 * NumberOfGlyphs + 4 * index));
                     index++;
                 }

@@ -18,11 +18,12 @@
             <MenuItem Header="替换内容" VerticalContentAlignment="Center" Click="MenuItemReplace_Click"/>
             <MenuItem Header="保存" VerticalContentAlignment="Center" Click="MenuItemSave_Click"/>
         </Menu>
-        <Button Grid.Row="1" Content="选择Pack..." Margin="2" Width="100" HorizontalAlignment="Left" Click="PackFileOpen_Click"/>
-        <Button Grid.Row="1" Content="填充所有内容" Margin="150,2,2,2" Width="100" HorizontalAlignment="Left" Click="FillContent_Click"/>
-        <Button Grid.Row="1" Content="恢复备份" Margin="300,2,2,2" Width="100" HorizontalAlignment="Left" Click="Restore_Click"/>
-        <Button Grid.Row="1" Content="查找字符" Margin="450,2,2,2" Width="100" HorizontalAlignment="Left" Click="SearchChar_Click"/>
-        <TextBox Grid.Row="1" Name="txtSearchChar" Margin="560,0,2,0" Width="50" Height="25" HorizontalAlignment="Left" VerticalAlignment="Center" VerticalContentAlignment="Center"/>
+        <Button Grid.Row="1" Content="选择战锤Pack..." Margin="2" Width="100" HorizontalAlignment="Left" Click="PackFileOpenWH_Click"/>
+        <Button Grid.Row="1" Content="选择三国Pack..." Margin="150,2,2,2" Width="100" HorizontalAlignment="Left" Click="PackFileOpenTK_Click"/>
+        <Button Grid.Row="1" Content="填充所有内容" Margin="300,2,2,2" Width="100" HorizontalAlignment="Left" Click="FillContent_Click"/>
+        <Button Grid.Row="1" Content="恢复备份" Margin="450,2,2,2" Width="100" HorizontalAlignment="Left" Click="Restore_Click"/>
+        <Button Grid.Row="1" Content="查找字符" Margin="560,2,2,2" Width="100" HorizontalAlignment="Left" Click="SearchChar_Click"/>
+        <TextBox Grid.Row="1" Name="txtSearchChar" Margin="670,0,2,0" Width="50" Height="25" HorizontalAlignment="Left" VerticalAlignment="Center" VerticalContentAlignment="Center"/>
         <Grid Grid.Row="2">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="200"/>

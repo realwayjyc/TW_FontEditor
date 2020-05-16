@@ -23,6 +23,7 @@ namespace TW_FontEditor
         private PackedFileEx _currentEditingPackedFile;
         private const string fontName = "Noto Sans CJK SC Regular";
         private ushort _lastSelectedUnicode = 0;
+        private FileType _currentFileType;
 
         private ObservableCollection<CharPropertyItem> _charTable;
 
@@ -34,19 +35,7 @@ namespace TW_FontEditor
             _headerItemTable = new ObservableCollection<HeaderPropertyItem>();
         }
 
-        private void PackFileOpen_Click(object sender, RoutedEventArgs e)
-        {
-            OpenFileDialog openFileDialog = new OpenFileDialog();
-            openFileDialog.Filter = "Pack文件|*.pack";
-            openFileDialog.FileName = "FontModeWH.pack";
-            if (openFileDialog.ShowDialog() == true)
-            {
-                PackFile pack = new PackFileCodec().Open(openFileDialog.FileName);
-                ShowPack(pack);
-                Title = pack.Filepath;
-                MakeBackup(openFileDialog.FileName);
-            }
-        }
+        
 
         private void MakeBackup(string fileName)
         {
@@ -55,9 +44,10 @@ namespace TW_FontEditor
             File.Copy(fileName, backupFileName);
         }
 
-        private void ShowPack(PackFile pack)
+        private void ShowPack(PackFile pack,FileType fileType)
         {
             if (pack == null) return;
+            _currentFileType = fileType;
             treeViewPackedFiles.Tag = pack;
             
             if(treeViewPackedFiles.Items.Count==0)
@@ -136,7 +126,7 @@ namespace TW_FontEditor
             _currentEditingPackedFile = new PackedFileEx()
             {
                 PackedFile = packedFile,
-                CufFile = new CufFile(packedFile.Data)
+                CufFile = new CufFile(packedFile.Data,_currentFileType)
             };
             _charTable.Clear();
             int selectedIndex = -1;
@@ -318,7 +308,7 @@ namespace TW_FontEditor
             }
             File.Copy(bakPackFileName, packFileName);
             PackFile pack = new PackFileCodec().Open(packFileName);
-            ShowPack(pack);
+            ShowPack(pack, _currentFileType);
             Title = pack.Filepath;
 
             _currentEditingPackedFile = null;
@@ -363,6 +353,34 @@ namespace TW_FontEditor
         private void DataGridHeaderTable_SelectedCellsChanged(object sender, SelectedCellsChangedEventArgs e)
         {
 
+        }
+
+        private void PackFileOpenWH_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "Pack文件|*.pack";
+            openFileDialog.FileName = "FontModeWH.pack";
+            if (openFileDialog.ShowDialog() == true)
+            {
+                PackFile pack = new PackFileCodec().Open(openFileDialog.FileName);
+                ShowPack(pack,FileType.WH);
+                Title = pack.Filepath;
+                MakeBackup(openFileDialog.FileName);
+            }
+        }
+
+        private void PackFileOpenTK_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "Pack文件|*.pack";
+            openFileDialog.FileName = "FontModeWH.pack";
+            if (openFileDialog.ShowDialog() == true)
+            {
+                PackFile pack = new PackFileCodec().Open(openFileDialog.FileName);
+                ShowPack(pack, FileType.TK);
+                Title = pack.Filepath;
+                MakeBackup(openFileDialog.FileName);
+            }
         }
     }
 }
