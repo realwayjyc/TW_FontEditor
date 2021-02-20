@@ -17,6 +17,7 @@
             <MenuItem Header="字体大小-" VerticalContentAlignment="Center" Click="MenuItemMinus_Click"/>
             <MenuItem Header="替换内容" VerticalContentAlignment="Center" Click="MenuItemReplace_Click"/>
             <MenuItem Header="保存" VerticalContentAlignment="Center" Click="MenuItemSave_Click"/>
+            <MenuItem Header="提取" VerticalContentAlignment="Center" Click="MenuItemExtract_Click"/>
         </Menu>
         <Button Grid.Row="1" Content="选择战锤Pack..." Margin="2" Width="100" HorizontalAlignment="Left" Click="PackFileOpenWH_Click"/>
         <Button Grid.Row="1" Content="选择三国Pack..." Margin="150,2,2,2" Width="100" HorizontalAlignment="Left" Click="PackFileOpenTK_Click"/>

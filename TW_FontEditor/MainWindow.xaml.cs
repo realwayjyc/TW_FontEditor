@@ -382,5 +382,27 @@ namespace TW_FontEditor
                 MakeBackup(openFileDialog.FileName);
             }
         }
+
+        private void MenuItemExtract_Click(object sender, RoutedEventArgs e)
+        {
+            PackFile packFile = treeViewPackedFiles.Tag as PackFile;
+            if (packFile == null) return;
+
+            System.Windows.Forms.FolderBrowserDialog folderBrowserDialog = 
+                new System.Windows.Forms.FolderBrowserDialog();
+            if (folderBrowserDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                string dir = folderBrowserDialog.SelectedPath;
+                foreach(PackedFile packedFile in packFile)
+                {
+                    byte[] content = packedFile.Data;
+                    string fileName = packedFile.Name;
+
+                    FileStream fileStream = new FileStream(dir + "/" + fileName, FileMode.Create, FileAccess.Write);
+                    fileStream.Write(content, 0, content.Length);
+                    fileStream.Close();
+                }
+            }
+        }
     }
 }
